@@ -39,6 +39,7 @@ namespace delegatedemo.Controllers
             //thread.Start();
             #endregion
             #region Task 异步 执行多个事务 多参数 各有返回值
+            // Task 用factory创建会直接执行 用new创建的不会直接执行需要start才会执行
             #region Task多线程执行 list的方式获取返回值 异步执行最后获取结果 速度很快
             #region task list 耗时2.127081秒
             System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();//计算耗时
@@ -65,6 +66,7 @@ namespace delegatedemo.Controllers
             sw.Stop();
             System.Diagnostics.Debug.WriteLine(sw.Elapsed.TotalSeconds + "秒");
             #endregion
+
             #region 对比一下同步方法 不用线程的话会很慢 耗时10.0841525秒
             System.Diagnostics.Stopwatch sw1 = new System.Diagnostics.Stopwatch();//计算耗时
             sw1.Start();
@@ -78,6 +80,7 @@ namespace delegatedemo.Controllers
             sw1.Stop();
             System.Diagnostics.Debug.WriteLine(sw1.Elapsed.TotalSeconds + "秒");
             #endregion
+
             #region 对比一下不用list获取结果的方法 这种就变成同步等待了 就和同步方法差不多了
             //（具体为啥不知道 可能是因为每次都要等到Result才能进行下一个线程吧） 耗时10.1307466秒
             System.Diagnostics.Stopwatch sw2 = new System.Diagnostics.Stopwatch();//计算耗时 
@@ -99,6 +102,7 @@ namespace delegatedemo.Controllers
             sw2.Stop();
             System.Diagnostics.Debug.WriteLine(sw2.Elapsed.TotalSeconds + "秒");
             #endregion
+
             #region Task不等待返回值 0.0044036秒 且输出是在index打印完成之前 
             System.Diagnostics.Stopwatch sw3 = new System.Diagnostics.Stopwatch();//计算耗时 
             sw3.Start();
