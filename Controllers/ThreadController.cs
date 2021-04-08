@@ -38,6 +38,34 @@ namespace delegatedemo.Controllers
             //Thread thread = new Thread(threadStart);
             //thread.Start();
             #endregion
+
+            #region 4.对比线程与线程池
+            // 主程序等待子线程全部执行完毕才结束
+            for (int i = 1; i <= 100; i++)
+            {
+                ParameterizedThreadStart threadStart = new ParameterizedThreadStart(SayHello);
+                Thread thread = new Thread(threadStart);
+                thread.Start(i);
+            }
+            System.Diagnostics.Debug.WriteLine("主线程执行！");
+            System.Diagnostics.Debug.WriteLine("主线程结束！");
+            System.Diagnostics.Debug.WriteLine("线程池终止！");
+            //Console.ReadKey();
+
+            // 主程序不会等待子线程
+            //ThreadPool可以设置最大线程数
+            ThreadPool.SetMinThreads(1, 1);
+            ThreadPool.SetMaxThreads(5, 5);
+            for (int i = 1; i <= 1000; i++)
+            {
+                ThreadPool.QueueUserWorkItem(new WaitCallback(SayHello), i.ToString());
+            }
+            System.Diagnostics.Debug.WriteLine("主线程执行！");
+            System.Diagnostics.Debug.WriteLine("主线程结束！");
+            System.Diagnostics.Debug.WriteLine("线程池终止！");
+            //Console.ReadKey();
+            #endregion
+
             #region Task 异步 执行多个事务 多参数 各有返回值
             // Task 用factory创建会直接执行 用new创建的不会直接执行需要start才会执行
             #region Task多线程执行 list的方式获取返回值 异步执行最后获取结果 速度很快
@@ -55,7 +83,7 @@ namespace delegatedemo.Controllers
                     return indexres;
                 });
                 task.Start();
-                tasklist.Add(task); // 物料获取线程执行完成后的返回值
+                tasklist.Add(task); // 获取线程执行完成后的返回值
             }
             var rescount = 0;
             foreach (var item in tasklist)
@@ -96,7 +124,7 @@ namespace delegatedemo.Controllers
                     return indexres;
                 });
                 task.Start();
-                rescount2 += task.Result; // 物料获取线程执行完成后的返回值
+                rescount2 += task.Result; // 获取线程执行完成后的返回值
             }
             System.Diagnostics.Debug.WriteLine(rescount2);
             sw2.Stop();
@@ -120,6 +148,51 @@ namespace delegatedemo.Controllers
             #endregion
             #endregion
             #endregion
+
+            #region Task的四种启动方法 1.start 2.run 3.factory 4.RunSynchronously
+            #region 1.实例化的方式Start启动
+            // Task的构造函数中的参数是Action委托(注：不是Action<>多个重载)，所以直接使用 ()=>{   }的方式传参，简洁明了，然后调用Start方式启动。
+            // 无入参无出参
+            Task taskstart = new Task(() => { SayHello(); });
+            taskstart.Start(); //启动任务，将其调度到当前任务调度程序执行
+
+            #endregion
+
+            #region 2.实例化方式RunSynchronously同步启动
+            // Task实例化的方式，然后调用同步方法RunSynchronously，进行线程启动。(PS: 类似委托开启线程，BeginInvoke是异步，而Invoke是同步)
+            Task taskrs = new Task(() => { SayHello(); });
+            taskrs.RunSynchronously(); //在当前任务调度程序上同步运行任务
+
+            #endregion
+
+            #region 3.TaskFactory工厂启动
+            // 使用TaskFactory工厂的StartNew方法启动，其中TaskFactory工厂可以直接实例化，或者 Task.Factory(推荐)。
+            TaskFactory factory = new TaskFactory();
+            Task taskfactory1 = factory.StartNew(() => { SayHello(); });
+            //或者
+            Task taskfactory2 = Task.Factory.StartNew(() => SayHello());
+            #endregion
+
+            #region 4.调用Task类下的静态方法Run，进行启动 可以看做是factory方法的简写吧
+            // 使用该方式启动，更加简洁，不需要实例化，也不需要调用Start方法，Run方法直接通过Action委托的方式进行传参即可（即: () => { } ）。
+            Task.Run(() => { SayHello(); });
+            #endregion
+            #endregion
+
+            #region 常用的Task的等待方法 WaitAny WaitAll
+            List<Task> waittasklist = new List<Task> { };
+            Task waitask = new Task(() => { });
+
+            // 1.WaitAny（执行的线程等待其中任何一个线程执行完毕即可执行）
+            Task.WaitAny(waittasklist.ToArray()); // tasklist中任意一个线程执行完成就OK
+            Task.WaitAny(waitask); // waitanytask执行完成就OK
+
+            // 2.WaitAll（执行的线程等待其中任何一个线程执行完毕即可执行）
+            Task.WaitAll(waittasklist.ToArray()); // tasklist中所有线程执行完成就OK
+
+            #endregion 
+
+
             return View();
         }
         public int sleep1000(int i)

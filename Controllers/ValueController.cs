@@ -7,7 +7,7 @@ using System.Web.Http;
 
 namespace delegatedemo.Controllers
 {
-    public class ValuesController : ApiController
+    public class ValueController : ApiController
     {
         // GET api/values
         public IEnumerable<string> Get()
