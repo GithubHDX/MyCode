@@ -190,7 +190,18 @@ namespace delegatedemo.Controllers
             // 2.WaitAll（执行的线程等待其中任何一个线程执行完毕即可执行）
             Task.WaitAll(waittasklist.ToArray()); // tasklist中所有线程执行完成就OK
 
-            #endregion 
+            // 3.WhenAny+ContinueWith 当其中一个线程执行完成后，新开启了一个线程执行，继续执行新业务，所以执行过程中，不卡主线程。
+            Task.WhenAny(waittasklist.ToArray()).ContinueWith((m) => { SayHello(); });
+
+            // 4.WhenAll+ContinueWith 当其中所有线程执行完成后，新开启了一个线程执行，继续执行新业务，所以执行过程中，不卡主线程
+            Task.WhenAll(waittasklist.ToArray()).ContinueWith((m) => { SayHello(); });
+
+            // 5.TaskFactory的线程等待
+            // 5.1 ContinueWhenAny = WhenAny+ContinueWith
+            Task.Factory.ContinueWhenAny(tasklist.ToArray(), (m) => { SayHello(); });
+            // 5.2 ContinueWhenAll = WhenAll+ContinueWith
+            Task.Factory.ContinueWhenAll(tasklist.ToArray(), (m) => { SayHello(); });
+            #endregion
 
 
             return View();
