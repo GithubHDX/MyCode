@@ -9,11 +9,15 @@ using System.Web.Mvc;
 
 namespace delegatedemo.Controllers
 {
+    /// <summary>
+    /// 泛型
+    /// </summary>
     public class HomeController : Controller
     {
         public ActionResult Index()
         {
             return View();
+
         }
     }
 
