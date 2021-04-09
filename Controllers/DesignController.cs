@@ -13,6 +13,10 @@ namespace delegatedemo.Controllers
     {
         public ActionResult Index()
         {
+            PhoneFactory huaweifactory= new HuaweiPhoneFactory();
+            Phone huaweiphone = huaweifactory.CreatePhone();
+            huaweiphone.Call();
+            huaweiphone = new ApplePhoneFactory().CreatePhone();
             return View();
         }
     }
@@ -92,4 +96,62 @@ namespace delegatedemo.Controllers
     #endregion
     #endregion
 
+    #region 工厂模式
+    /// <summary>
+    /// 使用类
+    /// </summary>
+    public abstract class Phone
+    {
+        public abstract string Call();
+        public abstract string SendMessage();
+    }
+    /// <summary>
+    /// 创建类
+    /// </summary>
+    public abstract class PhoneFactory
+    {
+        public abstract Phone CreatePhone();
+    }
+    public class HuaweiPhone : Phone
+    {
+        public override string Call()
+        {
+            return "huawei call";
+        }
+        public override string SendMessage()
+        {
+            return "huawei sendmessage";
+        }
+        public string Music()
+        {
+            return "huawei Music";
+        }
+    }
+    public class HuaweiPhoneFactory : PhoneFactory
+    {
+        public override Phone CreatePhone()
+        {
+            return new HuaweiPhone();
+        }
+    }
+    public class ApplePhone : Phone
+    {
+        public override string Call()
+        {
+            return "apple call";
+        }
+        public override string SendMessage()
+        {
+            return "apple sendmessage";
+        }
+    }
+    public class ApplePhoneFactory : PhoneFactory
+    {
+        public override Phone CreatePhone()
+        {
+            return new ApplePhone();
+        }
+    }
+
+    #endregion
 }
