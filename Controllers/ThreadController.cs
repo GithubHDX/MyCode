@@ -10,7 +10,7 @@ using System.Web.Mvc;
 namespace delegatedemo.Controllers
 {
     /// <summary>
-    /// 线程
+    /// 线程 - 线程池 - Task
     /// </summary>
     public class ThreadController : Controller
     {
@@ -179,7 +179,7 @@ namespace delegatedemo.Controllers
             #endregion
             #endregion
 
-            #region 常用的Task的等待方法 WaitAny WaitAll
+            #region 常用的Task的等待方法 WaitAny WaitAll WhenAny+ContinueWith WhenAll+ContinueWith ContinueWhenAny ContinueWhenAll
             List<Task> waittasklist = new List<Task> { };
             Task waitask = new Task(() => { });
 
@@ -202,7 +202,6 @@ namespace delegatedemo.Controllers
             // 5.2 ContinueWhenAll = WhenAll+ContinueWith
             Task.Factory.ContinueWhenAll(tasklist.ToArray(), (m) => { SayHello(); });
             #endregion
-
 
             return View();
         }
