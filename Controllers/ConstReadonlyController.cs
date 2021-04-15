@@ -14,9 +14,9 @@ namespace delegatedemo.Controllers
     /// </summary>
     public class ConstReadonlyController : Controller
     {
-        public const int constParam = 5 * 1; // 只能以常量的方式赋值
+        public const int constParam = 5 * 1; // 在编译期间确定 只能以常量的方式赋值
         public static readonly int staticreadonlyParam = 5;
-        public static readonly int staticreadonlyParam1 = 5 * staticreadonlyParam1;
+        public static readonly int staticreadonlyParam1 = 5 * staticreadonlyParam1; // 在运行时确定 可以通过静态构造函数赋值
         public static readonly int staticreadonlyParam2 = GetParaNum();
   
         public static int GetParaNum()
