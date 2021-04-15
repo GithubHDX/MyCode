@@ -8,6 +8,10 @@ namespace delegatedemo.Controllers
 {
     public class RewriteController : Controller
     {
+        /// <summary>
+        /// 重写 抽象函数 虚函数
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Index()
         {
             #region 虚函数
