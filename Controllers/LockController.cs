@@ -2,9 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
+//using System.Web.Http;
 using System.Web.Mvc;
 
 namespace delegatedemo.Controllers
@@ -12,7 +14,7 @@ namespace delegatedemo.Controllers
     /// <summary>
     /// 加锁时静态锁和非静态锁的差别
     /// </summary>
-    public class LockController : Controller
+    public class LockController : Controller// ApiController
     {
         private static readonly object staticLockObject;
         private readonly object lockObject;
@@ -31,10 +33,14 @@ namespace delegatedemo.Controllers
                 // ...
             }
         }
-        public ActionResult Index()
-        {
-            return View();
-        }
+
+        //[HttpPost, HttpGet] // 这个暂时搞不定不搞了
+        //[CheckToken]
+        //public HttpResponseMessage TestApi([FromBody] string args)
+        //{
+        //    return new HttpResponseMessage { };
+        //}
+
     }
 
 }
