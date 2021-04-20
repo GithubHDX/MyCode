@@ -156,6 +156,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LockController.cs" />
     <Compile Include="Controllers\GenericController.cs" />
     <Compile Include="Controllers\ConstReadonlyController.cs" />
@@ -163,7 +164,7 @@
     <Compile Include="Controllers\RedisController.cs" />
     <Compile Include="Controllers\DesignController.cs" />
     <Compile Include="Controllers\RewriteController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\DLGController.cs" />
     <Compile Include="Controllers\ThreadController.cs" />
     <Compile Include="Controllers\ValueController.cs" />
     <Compile Include="Filter\CheckToken.cs" />
@@ -279,7 +280,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>62092</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>https://localhost:44221/</IISUrl>
+          <IISUrl>http://localhost:62092/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
