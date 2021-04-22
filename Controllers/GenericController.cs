@@ -10,12 +10,14 @@ using System.Web.Mvc;
 namespace delegatedemo.Controllers
 {
     /// <summary>
-    /// 泛型
+    /// 泛型和对象
     /// </summary>
     public class GenericController : Controller
     {
         public ActionResult Index()
         {
+            // 泛型是以类型参数化的方式实现代码复用的一种方式 能够有效减少装箱拆箱的操作
+
             #region 泛型和object的差别
             int a = (int)getobjectvalue(1); // 需要装箱拆箱
             string b = getobjectvalue("B").ToString();
