@@ -109,8 +109,8 @@ namespace delegatedemo.Controllers
             System.Diagnostics.Debug.WriteLine(sw1.Elapsed.TotalSeconds + "秒");
             #endregion
 
-            #region 对比一下不用list获取结果的方法 这种就变成同步等待了 就和同步方法差不多了
-            //（具体为啥不知道 可能是因为每次都要等到Result才能进行下一个线程吧） 耗时10.1307466秒
+            #region 对比一下不用list获取结果的方法 这种就变成同步等待了  耗时10.1307466秒 就和同步方法差不多了
+            //（具体为啥不知道 可能是因为每次都要等到Result才能进行下一个线程吧）
             System.Diagnostics.Stopwatch sw2 = new System.Diagnostics.Stopwatch();//计算耗时 
             sw2.Start();
             int rescount2 = 0;
@@ -149,7 +149,7 @@ namespace delegatedemo.Controllers
             #endregion
             #endregion
 
-            #region Task的四种启动方法 1.start 2.run 3.factory 4.RunSynchronously
+            #region Task的四种启动方法 1.start 2.RunSynchronously 3.factory 4.run 
             #region 1.实例化的方式Start启动
             // Task的构造函数中的参数是Action委托(注：不是Action<>多个重载)，所以直接使用 ()=>{   }的方式传参，简洁明了，然后调用Start方式启动。
             // 无入参无出参
@@ -203,8 +203,130 @@ namespace delegatedemo.Controllers
             Task.Factory.ContinueWhenAll(tasklist.ToArray(), (m) => { SayHello(); });
             #endregion
 
+            #region async await 创建异步的方法
+            System.Diagnostics.Debug.WriteLine("开始了开始了开始了开始了开始了开始了");
+            TaskAsyncFunctionhhh();
+            System.Diagnostics.Debug.WriteLine("hhhhhhhhhhhhhhhhhhhhhhhhhhwwwwwwwwwwwwwwwwwwwwwww");
+            TaskAsyncFunctionwww();
+            System.Diagnostics.Debug.WriteLine("结束了结束了结束了结束了结束了结束了");
+            #endregion
+         
+            #region task 取消方法
+            #region cancle 判断IsCancellationRequested 这个弄的还不是很明白
+            //CancellationTokenSource cts = new CancellationTokenSource();
+            //cts.Token.Register(() =>
+            //{
+            //    // 注册一下取消回调的方法 
+            //    System.Diagnostics.Debug.WriteLine("挖槽，线程被干掉了");
+            //});
+            //System.Diagnostics.Debug.WriteLine("线程开始了");
+            //var cancletask = Task.Factory.StartNew(() =>
+            //{
+            //    if (!cts.IsCancellationRequested)
+            //    {
+            //        int i = 0;
+            //        while (i < 10000)
+            //        {
+            //            Thread.Sleep(100);
+            //            i++;
+            //            System.Diagnostics.Debug.WriteLine(i);
+            //        }
+            //    }
+            //});
+            //cts.Cancel();
+            #region cancle 抛出异常
+            //CancellationTokenSource cts = new CancellationTokenSource();
+            //CancellationToken token = cts.Token;
+            //cts.Token.Register(() =>
+            //{
+            //    // 注册一下取消回调的方法 
+            //    System.Diagnostics.Debug.WriteLine("挖槽，线程被干掉了");
+            //});
+            //System.Diagnostics.Debug.WriteLine("线程开始了");
+            //var cancletask = Task.Factory.StartNew(() =>
+            //{
+            //    try
+            //    {
+            //        int i = 0;
+            //        while (i < 10000)
+            //        {
+            //            Thread.Sleep(100);
+            //            i++;
+            //            System.Diagnostics.Debug.WriteLine(i);
+            //            token.ThrowIfCancellationRequested();
+            //        }
+            //    }
+            //    catch
+            //    {
+            //        System.Diagnostics.Debug.WriteLine("捕获到了异常");
+            //    }
+            //});
+            //cts.Cancel();
+            #endregion
+
+            #endregion
+
+            #region 判断标志位停止
+            bool isStop = false;
+            System.Diagnostics.Debug.WriteLine("线程开始了");
+            var cancletask = Task.Factory.StartNew(() =>
+            {
+                int i = 0;
+                while (i < 10000)
+                {
+                    if (!isStop)
+                    {
+                        Thread.Sleep(100);
+                        i++;
+                        System.Diagnostics.Debug.WriteLine(i);
+                    }
+                }
+            });
+            Thread.Sleep(100);
+            System.Diagnostics.Debug.WriteLine("线程执行取消");
+            isStop = true;
+            #endregion
+            #endregion
             return View();
         }
+        private static void CancleStop()
+        {
+            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+            CancellationToken Token = cancellationTokenSource.Token;
+            //结束任务回调
+            Token.Register(() =>
+            {
+                System.Diagnostics.Debug.WriteLine("canceled");
+            });
+
+            Task.Factory.StartNew(() =>
+            {
+                try
+                {
+                    while (true)
+                    {
+                        System.Diagnostics.Debug.WriteLine("hello world!");
+                        Thread.Sleep(100);
+                        //Token.ThrowIfCancellationRequested();
+                    }
+                }
+                catch (OperationCanceledException ocex)
+                {
+                }
+                catch (ObjectDisposedException odex)
+                {
+                }
+                catch (Exception ex)
+                {
+                }
+
+            }, Token);
+
+            Thread.Sleep(1000);
+
+            cancellationTokenSource.Cancel();
+        }
+
         public int sleep1000(int i)
         {
             Thread.Sleep(1000);
@@ -239,6 +361,32 @@ namespace delegatedemo.Controllers
             System.Diagnostics.Debug.WriteLine(name + age);
             return 1;
         }
+
+        #region async await 创建异步的方法
+        public async Task TaskAsyncFunctionhhh()
+        {
+            await Task.Factory.StartNew(() =>
+            {
+                for (int i = 0; i < 100; i++)
+                {
+                    System.Diagnostics.Debug.WriteLine("hahaha" + i);
+                }
+            });
+        }
+        public async Task TaskAsyncFunctionwww()
+        {
+            await Task.Run(() =>
+            {
+                for (int i = 0; i < 100; i++)
+                {
+                    System.Diagnostics.Debug.WriteLine("wuwuwu" + i);
+                }
+            });
+        }
+
+
+
+        #endregion
     }
 
 }

@@ -45,7 +45,7 @@ namespace delegatedemo.Controllers
 
             #region 抽象函数-属于纯虚函数 
             // 不存在基类声明基类实例化的情况调取SayGoodBye的方法，因为基类没办法访问这个方法
-            BaseClassB model1 = new ChildClassB();
+            BaseClassB model1 = new ChildClassB(); // 父类持有子类的对象 运行时若发现方法在子类中被重写就会访问子类的方法
             var saygoodbye1 = model1.SayGoodBye("胡老板");
             ChildClassB model2 = new ChildClassB();
             var saygoodbye2 = model2.SayGoodBye("胡老板");
@@ -67,7 +67,7 @@ namespace delegatedemo.Controllers
 
     public class BaseClassA // 虚函数示例 基类
     {
-        public virtual string SayHello(string name) // 虚函数在基类中是必须声明函数主体，可以在子类中被重写覆盖/也可以不被重写
+        public virtual string SayHello(string name) // 虚函数在基类中必须声明函数主体，可以在子类中被重写覆盖/也可以不被重写
         {
             return "parent say hello" + name;
         }
