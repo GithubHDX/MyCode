@@ -16,7 +16,7 @@ namespace delegatedemo
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "ThreadTaskLock", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Keyword", action = "Index", id = UrlParameter.Optional }
             );
         }
     }
