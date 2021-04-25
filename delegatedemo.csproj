@@ -157,6 +157,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AbandonKeyController.cs" />
+    <Compile Include="Controllers\DictionaryController.cs" />
     <Compile Include="Controllers\ThreadTaskLockController.cs" />
     <Compile Include="Controllers\KeywordController.cs" />
     <Compile Include="Controllers\HomeController.cs" />

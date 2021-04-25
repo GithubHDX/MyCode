@@ -141,4 +141,3 @@ E:\TestCode\obj\Debug\delegatedemo.csproj.CoreCompileInputs.cache
 E:\TestCode\obj\Debug\delegatedemo.csproj.CopyComplete
 E:\TestCode\obj\Debug\delegatedemo.dll
 E:\TestCode\obj\Debug\delegatedemo.pdb
-E:\TestCode\obj\Debug\delegatedemo.csprojAssemblyReference.cache
