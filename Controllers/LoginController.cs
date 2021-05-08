@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection; // 使用反射
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
@@ -10,14 +9,17 @@ using System.Web.Mvc;
 
 namespace delegatedemo.Controllers
 {
-    /// <summary>
-    /// 反射
-    /// </summary>
-    public class HomeController : Controller
+    public class LoginController : Controller
     {
         public ActionResult Index()
         {
             return View();
+        }
+
+        [HttpGet]
+        public string ToLogin(int id)
+        {
+            return "这是旧版" + id;
         }
     }
 }

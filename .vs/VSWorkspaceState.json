@@ -1,8 +1,9 @@
 {
   "ExpandedNodes": [
     "",
+    "\\App_Start",
     "\\Controllers"
   ],
-  "SelectedNode": "\\delegatedemo.sln",
+  "SelectedNode": "\\App_Start\\RouteConfig.cs",
   "PreviewInSolutionExplorer": false
 }
