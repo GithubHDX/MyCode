@@ -41,7 +41,6 @@ namespace delegatedemo.Controllers
             main();
             return View();
 
-
         }
         public object getobjectvalue(object a)
         {
